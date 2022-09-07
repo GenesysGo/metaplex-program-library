@@ -19,7 +19,7 @@ default = []
 [dependencies]
 anchor-lang = { git = "https://github.com/GenesysGo/anchor.git", branch = "tracy/test-validator-geyser-config-and-spl-version", features=["init-if-needed"]}
 anchor-spl = { git = "https://github.com/GenesysGo/anchor.git", branch = "tracy/test-validator-geyser-config-and-spl-version" }
-spl-token = "~3.5.0"
+spl-token = { git = "https://github.com/solana-labs/solana-program-library/", features = ["no-entrypoint"] }
 mpl-token-metadata = { features = [ "no-entrypoint" ], path = "../../token-metadata/program/" }
 
 [dev-dependencies]

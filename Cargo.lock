@@ -2037,7 +2037,7 @@ dependencies = [
  "solana-client",
  "solana-program",
  "solana-sdk",
- "spl-token 3.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "spl-token 3.5.0 (git+https://github.com/solana-labs/solana-program-library/)",
 ]
 
 [[package]]
@@ -2116,7 +2116,7 @@ dependencies = [
  "solana-program",
  "solana-program-test",
  "solana-sdk",
- "spl-token 3.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "spl-token 3.5.0 (git+https://github.com/solana-labs/solana-program-library/)",
  "thiserror",
 ]
 
@@ -2132,7 +2132,7 @@ dependencies = [
  "solana-program-test",
  "solana-sdk",
  "spl-associated-token-account 1.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
- "spl-token 3.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "spl-token 3.5.0 (git+https://github.com/solana-labs/solana-program-library/)",
 ]
 
 [[package]]
@@ -2150,7 +2150,7 @@ dependencies = [
  "solana-program-test",
  "solana-sdk",
  "spl-associated-token-account 1.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
- "spl-token 3.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "spl-token 3.5.0 (git+https://github.com/solana-labs/solana-program-library/)",
  "thiserror",
 ]
 
@@ -2172,7 +2172,7 @@ dependencies = [
  "solana-program-test",
  "solana-sdk",
  "spl-math",
- "spl-token 3.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "spl-token 3.5.0 (git+https://github.com/solana-labs/solana-program-library/)",
  "thiserror",
 ]
 
@@ -2194,7 +2194,7 @@ dependencies = [
  "solana-program-test",
  "solana-sdk",
  "spl-associated-token-account 1.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
- "spl-token 3.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "spl-token 3.5.0 (git+https://github.com/solana-labs/solana-program-library/)",
 ]
 
 [[package]]
@@ -2208,7 +2208,7 @@ dependencies = [
  "solana-program-test",
  "solana-sdk",
  "spl-associated-token-account 1.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
- "spl-token 3.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "spl-token 3.5.0 (git+https://github.com/solana-labs/solana-program-library/)",
  "thiserror",
 ]
 
@@ -2241,7 +2241,7 @@ dependencies = [
  "num-traits",
  "shank 0.0.2",
  "solana-program",
- "spl-token 3.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "spl-token 3.5.0 (git+https://github.com/solana-labs/solana-program-library/)",
  "thiserror",
 ]
 

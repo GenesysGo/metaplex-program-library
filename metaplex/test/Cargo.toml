@@ -25,4 +25,5 @@ metaplex-auction = { path = "../../auction/program", features = [ "no-entrypoint
 metaplex-token-metadata = { path = "../../token-metadata/program", features = [ "no-entrypoint" ] }
 metaplex-token-vault = { path = "../../token-vault/program", features = [ "no-entrypoint" ] }
 metaplex = { path = "../program", features = [ "no-entrypoint" ] }
-spl-token = { version="3.1.1", features = [ "no-entrypoint" ] }
+spl-token = { git = "https://github.com/solana-labs/solana-program-library/", features = ["no-entrypoint"] }
+

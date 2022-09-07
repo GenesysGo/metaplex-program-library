@@ -25,6 +25,6 @@ default = []
 anchor-lang = { git = "https://github.com/GenesysGo/anchor.git", branch = "tracy/test-validator-geyser-config-and-spl-version" }
 anchor-spl = { git = "https://github.com/GenesysGo/anchor.git", branch = "tracy/test-validator-geyser-config-and-spl-version" }
 solana-program = "1.11.6"
-spl-token = "3.5.0"
+spl-token = { git = "https://github.com/solana-labs/solana-program-library/", features = ["no-entrypoint"] }
 spl-associated-token-account = { version = "=1.0.3", features = [ "no-entrypoint" ] }
 mpl-token-metadata = { version="=1.2.7", features = [ "no-entrypoint" ] }

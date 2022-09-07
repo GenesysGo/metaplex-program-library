@@ -16,7 +16,8 @@ solana-program = "~1.11.6"
 thiserror = "~1.0"
 borsh = "~0.9.1"
 spl-math = { version = "~0.1", features = ["no-entrypoint"] }
-spl-token = { version = "~3.5.0", features = ["no-entrypoint"] }
+spl-token = { git = "https://github.com/solana-labs/solana-program-library/", features = ["no-entrypoint"] }
+
 shank = "~0.0.7"
 mpl-metaplex = { path = "../../metaplex/program", features = ["no-entrypoint"] }
 mpl-token-metadata = { path = "../../token-metadata/program", features = ["no-entrypoint"] }
