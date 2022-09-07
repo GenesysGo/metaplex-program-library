@@ -14,7 +14,7 @@ mpl-fixed-price-sale = { path = "../program", features = [ "no-entrypoint" ] }
 mpl-token-metadata = { features = [ "no-entrypoint" ], version="~1.1.0" }
 borsh = "0.9.1"
 spl-token = { git = "https://github.com/solana-labs/solana-program-library/", features = ["no-entrypoint"] }
-anchor-lang = { git = "https://github.com/GenesysGo/anchor.git", branch = "tracy/test-validator-geyser-config-and-spl-version" }
+anchor-lang = { git = "https://github.com/GenesysGo/anchor.git", branch = "cavey/das_api_version" }
 chrono = "0.4.19"
 spl-associated-token-account = "1.0.3"
 serde_json = "1.0.79"

@@ -17,7 +17,7 @@ cpi = ["no-entrypoint"]
 default = []
 
 [dependencies]
-anchor-lang = { git = "https://github.com/GenesysGo/anchor.git", branch = "tracy/test-validator-geyser-config-and-spl-version" }
+anchor-lang = { git = "https://github.com/GenesysGo/anchor.git", branch = "cavey/das_api_version" }
 anchor-spl = { git = "https://github.com/GenesysGo/anchor.git", branch = "tracy/test-validator-geyser-config-and-spl-version" }
 spl-token = { git = "https://github.com/solana-labs/solana-program-library/", features = ["no-entrypoint"] }
 spl-associated-token-account = {version = "~1.1.1", features = ["no-entrypoint"]}
