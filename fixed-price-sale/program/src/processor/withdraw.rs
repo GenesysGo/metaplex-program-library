@@ -1,6 +1,6 @@
 use crate::state::from_mpl_creators;
 use crate::{
-    error::ErrorCode,
+    error::{*, ErrorCode, Result},
     state::{Creator, MarketState, PrimaryMetadataCreators},
     utils::*,
     Withdraw,
@@ -10,6 +10,7 @@ use anchor_spl::{
     associated_token::{self, get_associated_token_address},
     token,
 };
+use mpl_token_metadata::state::{Metadata, TokenMetadataAccount};
 
 impl<'info> Withdraw<'info> {
     pub fn process(
@@ -61,7 +62,7 @@ impl<'info> Withdraw<'info> {
         )?;
 
         // Obtain right creators according to sale type
-        let metadata = mpl_token_metadata::state::Metadata::from_account_info(&metadata)?;
+        let metadata: Metadata = mpl_token_metadata::state::Metadata::from_account_info(&metadata).map_err(|_| ErrorCode::SolanaError)?;
         let actual_creators = if !metadata.primary_sale_happened {
             if remaining_accounts.len() == 0 {
                 return Err(ErrorCode::PrimaryMetadataCreatorsNotProvided.into());
@@ -70,7 +71,7 @@ impl<'info> Withdraw<'info> {
             let primary_metadata_creators_data = remaining_accounts[0].data.borrow()[8..].to_vec();
             let primary_metadata_creators = try_from_slice_unchecked::<PrimaryMetadataCreators>(
                 &primary_metadata_creators_data,
-            )?;
+            ).expect("this is metaplex's job. add an error code for this");
             Box::new(Some(primary_metadata_creators.creators))
         } else {
             if let Some(creators) = metadata.data.creators {
@@ -174,11 +175,11 @@ impl<'info> Withdraw<'info> {
             )?;
         } else {
             if *treasury_mint.owner != spl_token::id() {
-                return Err(ProgramError::InvalidArgument.into());
+                return Err(ProgramError::InvalidArgument).map_err(|_| ErrorCode::SolanaError);
             }
 
             if *treasury_holder.owner != spl_token::id() {
-                return Err(ProgramError::InvalidArgument.into());
+                return Err(ProgramError::InvalidArgument).map_err(|_| ErrorCode::SolanaError);
             }
 
             let associated_token_account =
@@ -202,7 +203,7 @@ impl<'info> Withdraw<'info> {
                     system_program: system_program.to_account_info(),
                 };
                 let cpi_ctx = CpiContext::new(cpi_program, cpi_accounts);
-                associated_token::create(cpi_ctx)?;
+                associated_token::create(cpi_ctx).map_err(|_| ErrorCode::SolanaError)?;
             }
 
             let cpi_program = token_program.to_account_info();
@@ -212,7 +213,7 @@ impl<'info> Withdraw<'info> {
                 authority: treasury_owner.to_account_info(),
             };
             let cpi_ctx = CpiContext::new_with_signer(cpi_program, cpi_accounts, signer_seeds);
-            token::transfer(cpi_ctx, amount)?;
+            token::transfer(cpi_ctx, amount).map_err(|_| ErrorCode::SolanaError)?;
         }
 
         Ok(())

@@ -1,6 +1,6 @@
 use anchor_lang::prelude::*;
 
-#[error_code]
+#[error]
 pub enum AuctionHouseError {
     // 6000
     #[msg("PublicKeyMismatch")]

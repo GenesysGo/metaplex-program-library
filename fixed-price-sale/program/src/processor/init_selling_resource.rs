@@ -1,6 +1,7 @@
-use crate::{error::ErrorCode, state::SellingResourceState, utils::*, InitSellingResource};
+use crate::{error::{ErrorCode, Result}, state::SellingResourceState, utils::*, InitSellingResource};
 use anchor_lang::prelude::*;
 use anchor_spl::token;
+use mpl_token_metadata::state::{TokenMetadataAccount, Metadata, MasterEditionV2};
 
 impl<'info> InitSellingResource<'info> {
     pub fn process(
@@ -44,8 +45,8 @@ impl<'info> InitSellingResource<'info> {
             ],
         )?;
 
-        let metadata =
-            mpl_token_metadata::state::Metadata::from_account_info(&metadata.to_account_info())?;
+        let metadata: Metadata =
+            mpl_token_metadata::state::Metadata::from_account_info(&metadata.to_account_info()).map_err(|_| ErrorCode::SolanaError)?;
 
         // Check, that at least one creator exists in primary sale
         if !metadata.primary_sale_happened {
@@ -58,8 +59,8 @@ impl<'info> InitSellingResource<'info> {
             }
         }
 
-        let master_edition =
-            mpl_token_metadata::state::MasterEditionV2::from_account_info(master_edition_info)?;
+        let master_edition: MasterEditionV2 =
+            mpl_token_metadata::state::MasterEditionV2::from_account_info(master_edition_info).map_err(|_| ErrorCode::SolanaError)?;
 
         let mut actual_max_supply = max_supply;
 
@@ -87,7 +88,7 @@ impl<'info> InitSellingResource<'info> {
             authority: admin.to_account_info(),
         };
         let cpi_ctx = CpiContext::new(cpi_program, cpi_accounts);
-        token::transfer(cpi_ctx, 1)?;
+        token::transfer(cpi_ctx, 1).map_err(|_| ErrorCode::SolanaError)?;
 
         selling_resource.store = store.key();
         selling_resource.owner = selling_resource_owner.key();

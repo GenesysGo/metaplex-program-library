@@ -1,11 +1,12 @@
 use crate::{
-    error::ErrorCode,
+    error::{*, ErrorCode, Result},
     state::{MarketState, MINIMUM_BALANCE_FOR_SYSTEM_ACCS},
     utils::*,
     ClaimResource,
 };
-use anchor_lang::{prelude::*, solana_program::program_pack::Pack, system_program::System};
+use anchor_lang::{prelude::*, solana_program::program_pack::Pack};
 use anchor_spl::token;
+use mpl_token_metadata::state::{TokenMetadataAccount, Metadata};
 
 impl<'info> ClaimResource<'info> {
     pub fn process(&mut self, vault_owner_bump: u8) -> Result<()> {
@@ -38,7 +39,7 @@ impl<'info> ClaimResource<'info> {
                 .checked_sub(MINIMUM_BALANCE_FOR_SYSTEM_ACCS)
                 .ok_or(ErrorCode::MathOverflow)?
         } else {
-            let token_account = spl_token::state::Account::unpack(&treasury_holder.data.borrow())?;
+            let token_account = spl_token::state::Account::unpack(&treasury_holder.data.borrow()).expect("METAPLEX TODO: need to add error code for this");
             if token_account.owner != market.treasury_owner {
                 return Err(ErrorCode::DerivedKeyInvalid.into());
             }
@@ -70,7 +71,7 @@ impl<'info> ClaimResource<'info> {
         ]];
 
         // Update primary sale flag
-        let metadata_state = mpl_token_metadata::state::Metadata::from_account_info(&metadata)?;
+        let metadata_state: Metadata = mpl_token_metadata::state::Metadata::from_account_info(&metadata).expect("METAPLEX TODO: need to add error code for this");
         if !metadata_state.primary_sale_happened {
             mpl_update_primary_sale_happened_via_token(
                 &metadata.to_account_info(),
@@ -88,7 +89,7 @@ impl<'info> ClaimResource<'info> {
             authority: vault_owner.to_account_info(),
         };
         let cpi_ctx = CpiContext::new_with_signer(cpi_program, cpi_accounts, signer_seeds);
-        token::transfer(cpi_ctx, 1)?;
+        token::transfer(cpi_ctx, 1).expect("METAPLEX TODO: need to add error code for this");
 
         Ok(())
     }

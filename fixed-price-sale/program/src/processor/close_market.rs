@@ -1,5 +1,4 @@
-use crate::{error::ErrorCode, state::MarketState, CloseMarket};
-use anchor_lang::prelude::*;
+use crate::{error::{*, ErrorCode, Result}, state::MarketState, CloseMarket};
 
 impl<'info> CloseMarket<'info> {
     pub fn process(&mut self) -> Result<()> {

@@ -1,6 +1,6 @@
 //! Module provide runtime utilities
 
-use crate::{id, ErrorCode};
+use crate::{id, error::{ErrorCode, Result}};
 use anchor_lang::{
     prelude::*,
     solana_program::{program::invoke_signed, system_instruction},
@@ -99,7 +99,7 @@ pub fn sys_create_account<'a>(
         &system_instruction::create_account(from.key, to.key, lamports, space as u64, owner),
         &[from.clone(), to.clone()],
         &[&signer_seeds],
-    )?;
+    ).map_err(|_| ErrorCode::SolanaError)?;
 
     Ok(())
 }
@@ -116,7 +116,7 @@ pub fn sys_transfer<'a>(
         &system_instruction::transfer(from.key, to.key, lamports),
         &[from.clone(), to.clone()],
         &[&signer_seeds],
-    )?;
+    ).map_err(|_| ErrorCode::SolanaError)?;
 
     Ok(())
 }
@@ -176,7 +176,7 @@ pub fn mpl_mint_new_edition_from_master_edition_via_token<'a>(
             rent.clone(),
         ],
         &[&signers_seeds],
-    )?;
+    ).map_err(|_| ErrorCode::SolanaError)?;
 
     Ok(())
 }
@@ -200,7 +200,7 @@ pub fn mpl_update_primary_sale_happened_via_token<'a>(
         &tx,
         &[metadata.clone(), owner.clone(), token.clone()],
         &[&signers_seeds],
-    )?;
+    ).map_err(|_| ErrorCode::SolanaError)?;
 
     Ok(())
 }
@@ -230,7 +230,7 @@ pub fn mpl_update_metadata_accounts_v2<'a>(
         &tx,
         &[metadata.clone(), update_authority.clone()],
         &[&signers_seeds],
-    )?;
+    ).map_err(|_| ErrorCode::SolanaError)?;
 
     Ok(())
 }

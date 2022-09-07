@@ -5,7 +5,7 @@ members=[
   "token-entangler/program",
   "token-vault/program",
   "token-vault/test",
-  "token-metadata",
+  "token-metadata/program",
   "nft-packs/program",
   "fixed-price-sale/program"
 ]

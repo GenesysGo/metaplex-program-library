@@ -1,6 +1,6 @@
 use anchor_lang::prelude::*;
 
-#[error_code]
+#[error]
 pub enum AuctioneerError {
     // 6000
     #[msg("Bump seed not in hash map")]

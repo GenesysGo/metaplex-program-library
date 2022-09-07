@@ -4,19 +4,18 @@ pub mod state;
 pub mod utils;
 
 use crate::{
-    error::ErrorCode,
+    error::{*, ErrorCode, Result},
     state::{
         Creator, GatingConfig, Market, PayoutTicket, PrimaryMetadataCreators, SellingResource,
         Store, TradeHistory,
     },
     utils::*,
 };
-use anchor_lang::{prelude::*, system_program::System, AnchorDeserialize, AnchorSerialize};
+use anchor_lang::{prelude::*, AnchorDeserialize, AnchorSerialize};
 use anchor_spl::{
     associated_token::AssociatedToken,
     token::{Mint, Token, TokenAccount},
 };
-
 declare_id!("SaLeTjyUa5wXHnGuewUSyJ5JWZaHwz3TxqUntCE9czo");
 
 #[program]

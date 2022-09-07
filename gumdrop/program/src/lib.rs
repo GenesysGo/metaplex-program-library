@@ -1415,7 +1415,7 @@ pub struct ClaimedEvent {
     pub amount: u64,
 }
 
-#[error_code]
+#[error]
 pub enum GumdropError {
     #[msg("Invalid Merkle proof.")]
     InvalidProof,

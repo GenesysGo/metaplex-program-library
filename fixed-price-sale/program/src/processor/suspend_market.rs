@@ -1,4 +1,4 @@
-use crate::{error::ErrorCode, state::MarketState, SuspendMarket};
+use crate::{error::{*, ErrorCode, Result}, state::MarketState, SuspendMarket};
 use anchor_lang::prelude::*;
 
 impl<'info> SuspendMarket<'info> {

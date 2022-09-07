@@ -125,6 +125,7 @@ pub async fn mint_tokens(
     );
 
     context.banks_client.process_transaction(tx).await
+        .map_err(|_| TransportError::Custom("error processing tx".to_owned()))
 }
 
 pub async fn create_token_account(
@@ -158,6 +159,7 @@ pub async fn create_token_account(
     );
 
     context.banks_client.process_transaction(tx).await
+        .map_err(|_| TransportError::Custom("error processing tx".to_owned()))
 }
 
 pub async fn create_mint(
@@ -192,6 +194,7 @@ pub async fn create_mint(
     );
 
     context.banks_client.process_transaction(tx).await
+        .map_err(|_| TransportError::Custom("error processing tx".to_owned()))
 }
 
 pub async fn transfer(
@@ -221,4 +224,5 @@ pub async fn transfer(
     );
 
     context.banks_client.process_transaction(tx).await
+        .map_err(|_| TransportError::Custom("error processing tx".to_owned()))
 }

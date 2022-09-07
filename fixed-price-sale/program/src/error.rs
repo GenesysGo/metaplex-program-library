@@ -2,6 +2,8 @@
 
 use anchor_lang::prelude::*;
 
+pub type Result<T> = std::result::Result<T, ErrorCode>;
+
 #[error_code]
 pub enum ErrorCode {
     // 6000
@@ -136,4 +138,6 @@ pub enum ErrorCode {
     // 6043
     #[msg("Wrong gating token")]
     WrongGatingToken,
+    #[msg("Solana error")]
+    SolanaError
 }

@@ -1,5 +1,5 @@
 use crate::{
-    error::ErrorCode,
+    error::{*, ErrorCode, Result},
     state::{GatingConfig, MarketState, SellingResourceState},
     utils::*,
     Buy,
@@ -7,10 +7,9 @@ use crate::{
 use anchor_lang::prelude::*;
 use anchor_lang::{
     solana_program::{program::invoke, program_pack::Pack, system_instruction},
-    system_program::System,
 };
 use anchor_spl::token;
-use mpl_token_metadata::{state::Metadata, utils::get_supply_off_master_edition};
+use mpl_token_metadata::{state::{Metadata, TokenMetadataAccount}, utils::get_supply_off_master_edition};
 
 impl<'info> Buy<'info> {
     pub fn process(
@@ -41,7 +40,8 @@ impl<'info> Buy<'info> {
 
         let metadata_mint = selling_resource.resource.clone();
         // do supply +1 to increase master edition supply
-        let edition = get_supply_off_master_edition(&master_edition.to_account_info())?
+        let edition = get_supply_off_master_edition(&master_edition.to_account_info())
+            .expect("METAPLEX TODO: need to add error code for this")
             .checked_add(1)
             .ok_or(ErrorCode::MathOverflow)?;
 
@@ -101,7 +101,7 @@ impl<'info> Buy<'info> {
                 authority: user_wallet.to_account_info(),
             };
             let cpi_ctx = CpiContext::new(cpi_program, cpi_accounts);
-            token::transfer(cpi_ctx, market.price)?;
+            token::transfer(cpi_ctx, market.price).expect("METAPLEX TODO: need to add error code for this");
         } else {
             if user_token_account.key() != user_wallet.key() {
                 return Err(ErrorCode::UserWalletMustMatchUserTokenAccount.into());
@@ -118,7 +118,7 @@ impl<'info> Buy<'info> {
                     user_token_account.to_account_info(),
                     treasury_holder.to_account_info(),
                 ],
-            )?;
+            ).expect("METAPLEX TODO: need to add error code for this");
         }
 
         market.funds_collected = market
@@ -230,13 +230,13 @@ impl<'info> Buy<'info> {
                         &user_wallet.key(),
                         &[&user_wallet.key()],
                         1,
-                    )?,
+                    ).expect("METAPLEX TODO: need to add error code for this"),
                     &[
                         user_token_acc.clone(),
                         token_acc_mint.clone(),
                         user_wallet.clone(),
                     ],
-                )?;
+                ).expect("METAPLEX TODO: need to add error code for this");
             }
 
             Ok(())
@@ -255,8 +255,8 @@ impl<'info> Buy<'info> {
         }
 
         let user_token_acc_data = spl_token::state::Account::unpack_from_slice(
-            user_token_acc.try_borrow_data()?.as_ref(),
-        )?;
+            user_token_acc.try_borrow_data().expect("METAPLEX TODO: need to add error code for this").as_ref(),
+        ).expect("METAPLEX TODO: need to add error code for this");
 
         if user_token_acc_data.owner != *user_wallet {
             return Err(ErrorCode::WrongOwnerInTokenGatingAcc.into());
@@ -279,10 +279,10 @@ impl<'info> Buy<'info> {
             return Err(ErrorCode::InvalidOwnerForGatingToken.into());
         }
         let user_token_acc_data = spl_token::state::Account::unpack_from_slice(
-            user_token_acc.try_borrow_data()?.as_ref(),
-        )?;
+            user_token_acc.try_borrow_data().expect("METAPLEX TODO: need to add error code for this").as_ref(),
+        ).expect("METAPLEX TODO: need to add error code for this");
 
-        let metadata_data = Metadata::from_account_info(metadata)?;
+        let metadata_data: Metadata = Metadata::from_account_info(metadata).expect("METAPLEX TODO: need to add error code for this");
 
         let token_metadata_program_key = mpl_token_metadata::id();
         let metadata_seeds = &[

@@ -22,9 +22,9 @@ cpi = ["no-entrypoint"]
 default = []
 
 [dependencies]
-anchor-lang = "0.24.2"
-anchor-spl = "0.24.2"
-solana-program = "1.9.18"
-spl-token = "3.2.0"
+anchor-lang = { git = "https://github.com/GenesysGo/anchor.git", branch = "tracy/test-validator-geyser-config-and-spl-version" }
+anchor-spl = { git = "https://github.com/GenesysGo/anchor.git", branch = "tracy/test-validator-geyser-config-and-spl-version" }
+solana-program = "1.11.6"
+spl-token = "3.5.0"
 spl-associated-token-account = { version = "=1.0.3", features = [ "no-entrypoint" ] }
 mpl-token-metadata = { version="=1.2.7", features = [ "no-entrypoint" ] }

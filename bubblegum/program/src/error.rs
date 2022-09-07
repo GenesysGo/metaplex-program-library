@@ -1,6 +1,6 @@
 use anchor_lang::prelude::*;
 
-#[error_code]
+#[error]
 pub enum BubblegumError {
     #[msg("Asset Owner Does not match")]
     AssetOwnerMismatch,

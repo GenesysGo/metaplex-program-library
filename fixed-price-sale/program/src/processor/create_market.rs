@@ -1,5 +1,5 @@
 use crate::{
-    error::ErrorCode,
+    error::{*, ErrorCode, Result},
     state::{GatingConfig, MarketState, SellingResourceState, MINIMUM_BALANCE_FOR_SYSTEM_ACCS},
     utils::*,
     CreateMarket,
@@ -94,21 +94,21 @@ impl<'info> CreateMarket<'info> {
             if mint.owner != &anchor_spl::token::ID
                 || treasury_holder.owner != &anchor_spl::token::ID
             {
-                return Err(ProgramError::IllegalOwner.into());
+                return Err(ProgramError::IllegalOwner).map_err(|_| ErrorCode::SolanaError);
             }
 
-            if accessor::mint(&treasury_holder)? != *mint.key {
-                return Err(ProgramError::InvalidAccountData.into());
+            if accessor::mint(&treasury_holder).map_err(|_| ErrorCode::SolanaError)? != *mint.key {
+                return Err(ProgramError::InvalidAccountData).map_err(|_| ErrorCode::SolanaError);
             }
 
-            if accessor::authority(&treasury_holder)? != owner.key() {
-                return Err(ProgramError::InvalidAccountData.into());
+            if accessor::authority(&treasury_holder).map_err(|_| ErrorCode::SolanaError)? != owner.key() {
+                return Err(ProgramError::InvalidAccountData).map_err(|_| ErrorCode::SolanaError);
             }
         } else {
             // for native SOL we use PDA as a treasury holder
             // because of security reasons(only program can spend this SOL)
             if treasury_holder.key != owner.key {
-                return Err(ProgramError::InvalidAccountData.into());
+                return Err(ProgramError::InvalidAccountData).map_err(|_| ErrorCode::SolanaError);
             }
 
             // we need fund treasury holder account such as it will hold some metadata with SOL balance
@@ -122,7 +122,7 @@ impl<'info> CreateMarket<'info> {
                     selling_resource_owner.to_account_info(),
                     treasury_holder.to_account_info(),
                 ],
-            )?;
+            ).map_err(|_| ErrorCode::SolanaError)?;
         }
 
         // Check selling resource ownership

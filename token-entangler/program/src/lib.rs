@@ -17,6 +17,7 @@ const PREFIX: &str = "token_entangler";
 const ESCROW: &str = "escrow";
 const A_NAME: &str = "A";
 const B_NAME: &str = "B";
+
 #[program]
 pub mod token_entangler {
     use spl_token::amount_to_ui_amount;

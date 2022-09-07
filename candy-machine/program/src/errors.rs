@@ -1,6 +1,6 @@
 use anchor_lang::prelude::*;
 
-#[error_code]
+#[error]
 pub enum CandyError {
     #[msg("Account does not have correct owner!")]
     IncorrectOwner,
