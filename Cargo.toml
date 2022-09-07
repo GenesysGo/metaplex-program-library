@@ -5,12 +5,12 @@ members=[
   "token-entangler/program",
   "token-vault/program",
   "token-vault/test",
+  "token-metadata",
   "nft-packs/program",
   "fixed-price-sale/program"
 ]
 exclude = [
   "fixed-price-sale/cli",
-  "token-metadata",
   "auction-house/program",
   "candy-machine/program",
   "bubblegum/program",
